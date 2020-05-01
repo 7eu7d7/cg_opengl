@@ -1,0 +1,23 @@
+group 'com.gltest'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.jogamp.jogl', name: 'jogl-all-main', version: '2.3.2'
+    compile "org.jogamp.gluegen:gluegen-rt:2.3.2"
+    compile group: 'io.github.java-graphics', name: 'glm', version: '1.0.1'
+
+    runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-amd64"
+    runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-i586"
+
+    runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-amd64"
+    runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-i586"
+}
