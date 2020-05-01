@@ -20,8 +20,9 @@ project
 │   └───resources       //shader及资源文件
 │
 └───src(module)         //主程序模块及GUI
-     │
-     └───java            //绘制主程序
-          │   Main            //主类
-          │   ViewTest1       //实验1
+│   │
+│   └───java            //绘制主程序
+│        │   Main            //主类
+│        │   ViewTest1       //实验1
+└───imgs         //实验效果图片
 ```
