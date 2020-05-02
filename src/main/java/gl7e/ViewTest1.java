@@ -67,6 +67,7 @@ public class ViewTest1 extends GeomView{
         tris.addVertex(0,0,0).addColor(0xff0000ff);
         tris.addVertex(1,1,0).addColor(0xff66ccff);
         tris.addVertex(0,2,0).addColor(0xffff66cc);
+        tris.addVertex(1,2.5f,0).addColor(0xffffb000);
         tris.setPosition(1,0,0);
         addGeom(tris);
 

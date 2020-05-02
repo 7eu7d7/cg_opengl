@@ -14,7 +14,6 @@ public class Screen {
     public GLView view;
 
     int prog;
-    public static int mv,proj;
 
     public void init(GL2 gl2){
         gl2.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -22,13 +21,12 @@ public class Screen {
         gl2.glDepthMask(true);
         gl2.glShadeModel(GL2.GL_SMOOTH);
 
-        prog = ShaderLodaer.loadShader(gl2, "/vertexshader1.glsl","/fragmentshader1.glsl");
-        mv = gl2.glGetUniformLocation(prog,"mv");
-        proj = gl2.glGetUniformLocation(prog,"proj");
-        gl2.glUseProgram(prog);
+        ShaderLodaer.loadAllShader(gl2);
 
         view.init(gl2);
     }
+
+
 
     public void setup(GL2 gl2, int width, int height ) {
         gl2.glViewport(0, 0, width, height);

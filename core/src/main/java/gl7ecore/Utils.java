@@ -1,14 +1,26 @@
 package gl7ecore;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.jogamp.opengl.GLException;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
+
+import javax.imageio.ImageIO;
+import java.io.*;
 import java.util.List;
 
 public class Utils {
 
-    public static String readResources(String file){
+    public static Texture loadTexture(String file,Class cls) throws GLException, IOException
+    {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(ImageIO.read(cls.getResourceAsStream(file)), "png", os);
+        InputStream fis = new ByteArrayInputStream(os.toByteArray());
+        return TextureIO.newTexture(fis, true, TextureIO.PNG);
+    }
+
+    public static String readResources(String file,Class cls){
         try {
-            InputStream is = Utils.class.getClass().getResourceAsStream(file);
+            InputStream is = cls.getResourceAsStream(file);
             byte[] bys=new byte[is.available()];
             is.read(bys);
             return new String(bys);

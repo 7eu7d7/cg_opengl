@@ -20,7 +20,7 @@ public class Main {
 
     public static void main( String [] args ) {
 
-        screen.view=new ViewTest1();
+        screen.view=new MainView();
 
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities( glprofile );

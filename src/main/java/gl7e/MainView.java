@@ -2,12 +2,15 @@ package gl7e;
 
 import com.jogamp.opengl.GL2;
 import gl7ecore.Screen;
+import gl7ecore.Utils;
 import gl7ecore.geom.Ball;
 import gl7ecore.geom.Cube;
 import gl7ecore.geom.Rect;
 import gl7ecore.utils.GLHelper;
 import gl7ecore.view.GLView;
 import gl7ecore.view.GeomView;
+
+import java.io.IOException;
 
 public class MainView extends GeomView{
 
@@ -25,6 +28,16 @@ public class MainView extends GeomView{
         rect.addColor(0xffff0000);
         rect.addColor(0xff0000ff);
 
+        try {
+            rect.bindTexture(gl2, Utils.loadTexture("/nep.png",this.getClass()));
+            rect.addTex(0,0);
+            rect.addTex(1,0);
+            rect.addTex(1,1);
+            rect.addTex(0,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         addGeom(rect);
         //gv.addGeom(cube);
         addGeom(ball);
@@ -34,8 +47,8 @@ public class MainView extends GeomView{
 
     @Override
     public void draw(GL2 gl2) {
-        //glu.gluLookAt(5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0);
-        glu.gluLookAt(0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        glu.gluLookAt(5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0);
+        //glu.gluLookAt(0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
         gl2.glRotatef(angle, 1, 0, 0);
         gl2.glRotatef(angle,0,0,1);
