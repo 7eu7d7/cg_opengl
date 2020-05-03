@@ -1,6 +1,7 @@
 package gl7ecore.geom;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.texture.Texture;
 
 public class Rect extends Mesh{
     public float x,y,w,h;
@@ -23,6 +24,15 @@ public class Rect extends Mesh{
     public void set(float x, float y, float w, float h){
         this.x=x;this.y=y;
         this.w=w;this.h=h;
+    }
+
+    public void setTexture(GL2 gl2,Texture texture){
+        texuv.clear();
+        addTex(0,0);
+        addTex(1,0);
+        addTex(1,1);
+        addTex(0,1);
+        bindTexture(gl2,texture);
     }
 
     public float left(){

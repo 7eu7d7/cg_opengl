@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 
 /**
  * A minimal program that draws with JOGL in a Swing JFrame using the AWT GLCanvas.
@@ -48,7 +49,7 @@ public class Main {
             }
         });
 
-        final JFrame jframe = new JFrame( "One Triangle Swing GLCanvas" );
+        final JFrame jframe = new JFrame( "Opengl CG" );
         jframe.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent windowevent ) {
                 jframe.dispose();

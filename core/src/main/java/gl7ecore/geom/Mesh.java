@@ -34,6 +34,7 @@ public class Mesh implements IGeom {
 
     Vec3 position=new Vec3();
     Vec3 rotation=new Vec3();
+    Vec3 scale=new Vec3(1,1,1);
 
     public void build(GL2 gl2) {
         vtx_len=vertexs.size();
@@ -45,6 +46,7 @@ public class Mesh implements IGeom {
             ind_buff=setIndicesBuffer(gl2,Utils.list2arri(indices));
         if(!texuv.isEmpty())
             texuv_buff=setTextureBuffer(gl2,Utils.list2arrf(texuv));
+
         //gl2.glTexCoordPointer(2, GL2.GL_FLOAT, 0, textureCoords);
     }
 
@@ -60,6 +62,7 @@ public class Mesh implements IGeom {
         gl2.glRotatef(rotation.x,1,0,0);
         gl2.glRotatef(rotation.y,0,1,0);
         gl2.glRotatef(rotation.z,0,0,1);
+        gl2.glScalef(scale.x, scale.y, scale.z);
 
         gl2.glUniformMatrix4fv(ShaderLodaer.mv,1,false, GLHelper.getModelViewMatrix(gl2),0);
         gl2.glUniformMatrix4fv(ShaderLodaer.proj,1,false, GLHelper.getProjectionMatrix(gl2),0);
@@ -68,7 +71,7 @@ public class Mesh implements IGeom {
         gl2.glPopMatrix();
     }
 
-    public int selectProg(){
+    /*public int selectProg(){
         if(!vertexs.isEmpty()){
             if(!colors.isEmpty() && !texuv.isEmpty()){
                 return ShaderLodaer.COLOR_TEX;
@@ -81,6 +84,26 @@ public class Mesh implements IGeom {
             }
         }
         return 0;
+    }*/
+
+    public int selectProg(GL2 gl2){
+        if(!vertexs.isEmpty()){
+            gl2.glEnableVertexAttribArray(Constant.vPosition);
+            if(!colors.isEmpty() && !texuv.isEmpty()){
+                gl2.glEnableVertexAttribArray(Constant.tex_coord);
+                gl2.glEnableVertexAttribArray(Constant.aColor);
+            }else if(!colors.isEmpty()){
+                gl2.glDisableVertexAttribArray(Constant.tex_coord);
+                gl2.glEnableVertexAttribArray(Constant.aColor);
+            }else if(!texuv.isEmpty()){
+                gl2.glDisableVertexAttribArray(Constant.aColor);
+                gl2.glEnableVertexAttribArray(Constant.tex_coord);
+            }else {
+                gl2.glDisableVertexAttribArray(Constant.aColor);
+                gl2.glDisableVertexAttribArray(Constant.tex_coord);
+            }
+        }
+        return ShaderLodaer.COLOR_TEX;
     }
 
     @Override
@@ -89,6 +112,9 @@ public class Mesh implements IGeom {
 
         if (shader_mode==Constant.RAW_SHADER){
             gl2.glUseProgram(0);
+            gl2.glDisableVertexAttribArray(Constant.aColor);
+            gl2.glDisableVertexAttribArray(Constant.tex_coord);
+            gl2.glDisableVertexAttribArray(Constant.vPosition);
 
             if (!vertexs.isEmpty()) {
                 gl2.glEnableClientState(GL2.GL_VERTEX_ARRAY);
@@ -107,15 +133,16 @@ public class Mesh implements IGeom {
                 gl2.glTexCoordPointer(2, GL2.GL_FLOAT, 0, texuv_buff.rewind());
             }
 
-
         }else if(shader_mode==Constant.SELF_SHADER) {
-            gl2.glUseProgram(selectProg());
+            gl2.glUseProgram(selectProg(gl2));
 
             if (!vertexs.isEmpty())
                 gl2.glVertexAttribPointer(Constant.vPosition, 4, GL2.GL_FLOAT, false, 0, vtx_buff.rewind());
 
             if (!colors.isEmpty())
                 gl2.glVertexAttribPointer(Constant.aColor, 4, GL2.GL_FLOAT, false, 0, col_buff.rewind());
+            else
+                gl2.glVertexAttrib4f(Constant.aColor,1,1,1,1);  //默认颜色为白色
 
             if (!texuv.isEmpty()) {
                 gl2.glActiveTexture(GL2.GL_TEXTURE0);
@@ -172,10 +199,6 @@ public class Mesh implements IGeom {
         gl2.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
         tex.enable(gl2);
         texture=tex;
-        gl2.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-        gl2.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-        gl2.glTexParameterfv(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_BORDER_COLOR,new float[]{1,0,1,1},0);
-        //gl2.glSamplerParamete(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_BORDER_COLOR,new float[]{1,0,1,1},0);
     }
 
     public Mesh addTex(float u,float v){
@@ -206,7 +229,14 @@ public class Mesh implements IGeom {
         rotation.set(x,y,z);
     }
 
-    public Buffer setVertexBuffer(GL2 gl2,float[] vertexData){
+    public void setScale(Vec3 scale) {
+        this.scale = scale;
+    }
+    public void setScale(float x,float y,float z) {
+        scale.set(x,y,z);
+    }
+
+    public Buffer setVertexBuffer(GL2 gl2, float[] vertexData){
         //绑定顶点
         gl2.glEnableVertexAttribArray(Constant.vPosition);
         return GLBuffers.newDirectFloatBuffer(vertexData);
@@ -217,31 +247,6 @@ public class Mesh implements IGeom {
         gl2.glEnableVertexAttribArray(Constant.aColor);
         return GLBuffers.newDirectFloatBuffer(colorData);
     }
-
-    /*public int setVertexBuffer(GL2 gl2,float[] vertexData,float[] colorData){
-        IntBuffer id=GLBuffers.newDirectIntBuffer(1);//gl7ecore.BufferUtil.getIntBuffer(1);
-        gl2.glGenBuffers(1, id);
-        gl2.glBindBuffer(GL2.GL_ARRAY_BUFFER, id.get(0));
-        if (colorData.length>0){
-            gl2.glBufferData(GL2.GL_ARRAY_BUFFER, vertexData.length*4+colorData.length*4, null, GL2.GL_STATIC_DRAW);
-            gl2.glBufferSubData(GL2.GL_ARRAY_BUFFER,0,vertexData.length*4,GLBuffers.newDirectFloatBuffer(vertexData));
-            gl2.glBufferSubData(GL2.GL_ARRAY_BUFFER,vertexData.length*4,colorData.length*4,GLBuffers.newDirectFloatBuffer(colorData));
-        }else
-            gl2.glBufferData(GL2.GL_ARRAY_BUFFER, vertexData.length*4, GLBuffers.newDirectFloatBuffer(vertexData), GL2.GL_STATIC_DRAW);
-
-        //绑定顶点
-        gl2.glEnableVertexAttribArray(vPosition);
-        gl2.glVertexAttribPointer(vPosition, 4, GL2.GL_FLOAT, false, 0, 0);
-
-
-        if(colorData.length>0){
-            //绑定颜色
-            gl2.glEnableVertexAttribArray(aColor);
-            gl2.glVertexAttribPointer(aColor, 4, GL2.GL_FLOAT, false, 0, vertexData.length*4);
-        }
-
-        return id.get(0);
-    }*/
 
     public Buffer setIndicesBuffer(GL2 gl2,int[] indicesData){
         return GLBuffers.newDirectIntBuffer(indicesData);

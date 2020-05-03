@@ -1,10 +1,12 @@
 package gl7e;
 
 import com.jogamp.opengl.GL2;
+import gl7ecore.Constant;
 import gl7ecore.Screen;
 import gl7ecore.Utils;
 import gl7ecore.geom.Ball;
 import gl7ecore.geom.Cube;
+import gl7ecore.geom.ObjModel;
 import gl7ecore.geom.Rect;
 import gl7ecore.utils.GLHelper;
 import gl7ecore.view.GLView;
@@ -16,7 +18,8 @@ public class MainView extends GeomView{
 
     Rect rect=new Rect(-1,-1,5,5);
     Cube cube=new Cube(-1,-1,-1,2,2,2);
-    Ball ball=new Ball(2,40,80);
+    Ball ball=new Ball(2,40,20);
+    ObjModel objModel=new ObjModel();
 
     int angle=0;
 
@@ -29,25 +32,32 @@ public class MainView extends GeomView{
         rect.addColor(0xff0000ff);
 
         try {
-            rect.bindTexture(gl2, Utils.loadTexture("/nep.png",this.getClass()));
+            rect.bindTexture(gl2, Utils.loadTexture("/hinata.png",this.getClass()));
             rect.addTex(0,0);
             rect.addTex(1,0);
             rect.addTex(1,1);
             rect.addTex(0,1);
+            ball.setTexture(gl2,Utils.loadTexture("/hinata.png",this.getClass()));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        addGeom(rect);
+        //objModel.loadOBJ(gl2,getClass().getResource("/qrobot/qrobot.obj"));
+        objModel.loadOBJ(gl2,getClass().getResource("/miku/miku.obj"));
+        objModel.setScale(0.05f,0.05f,0.05f);
+        objModel.setRotation(90,180,0);
+
+        //addGeom(rect);
         //gv.addGeom(cube);
-        addGeom(ball);
+        //addGeom(ball);
+        addGeom(objModel);
 
         super.init(gl2);
     }
 
     @Override
     public void draw(GL2 gl2) {
-        glu.gluLookAt(5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0);
+        glu.gluLookAt(3, 5, 3, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
         //glu.gluLookAt(0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
         gl2.glRotatef(angle, 1, 0, 0);

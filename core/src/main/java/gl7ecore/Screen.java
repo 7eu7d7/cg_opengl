@@ -19,14 +19,12 @@ public class Screen {
         gl2.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         gl2.glEnable(GL2.GL_DEPTH_TEST);
         gl2.glDepthMask(true);
-        gl2.glShadeModel(GL2.GL_SMOOTH);
+        //gl2.glShadeModel(GL2.GL_SMOOTH);
 
         ShaderLodaer.loadAllShader(gl2);
 
         view.init(gl2);
     }
-
-
 
     public void setup(GL2 gl2, int width, int height ) {
         gl2.glViewport(0, 0, width, height);

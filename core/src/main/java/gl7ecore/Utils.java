@@ -6,21 +6,43 @@ import com.jogamp.opengl.util.texture.TextureIO;
 
 import javax.imageio.ImageIO;
 import java.io.*;
+import java.net.URL;
 import java.util.List;
 
 public class Utils {
-
-    public static Texture loadTexture(String file,Class cls) throws GLException, IOException
+    public static Texture loadTexture(URL url) throws GLException, IOException
     {
+        //String font=getSubStr_start(url.toString(),".").toLowerCase();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(ImageIO.read(cls.getResourceAsStream(file)), "png", os);
+        ImageIO.write(ImageIO.read(url.openStream()), "png", os);
         InputStream fis = new ByteArrayInputStream(os.toByteArray());
         return TextureIO.newTexture(fis, true, TextureIO.PNG);
     }
 
+    public static Texture loadTexture(String file,Class cls) throws GLException, IOException
+    {
+        return loadTexture(cls.getResource(file));
+    }
+
     public static String readResources(String file,Class cls){
+        return readURL(cls.getResource(file));
+    }
+
+    public static String readURL(URL url){
         try {
-            InputStream is = cls.getResourceAsStream(file);
+            InputStream is = url.openStream();
+            byte[] bys=new byte[is.available()];
+            is.read(bys);
+            return new String(bys);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String readFile(String file){
+        try {
+            InputStream is = new FileInputStream(file);
             byte[] bys=new byte[is.available()];
             is.read(bys);
             return new String(bys);
@@ -72,4 +94,72 @@ public class Utils {
         return (float) Math.sin(Math.toRadians(deg));
     }
 
+    public static float[] str2float(String[] strs,int start,int end){
+        float[] farr=new float[end-start];
+        for (int i = start; i < end; i++) {
+            farr[i-start]=Float.parseFloat(strs[i]);
+        }
+        return farr;
+    }
+
+    public static int[] str2int(String[] strs,int start,int end){
+        int[] farr=new int[end-start];
+        for (int i = start; i < end; i++) {
+            farr[i-start]=Integer.parseInt(strs[i]);
+        }
+        return farr;
+    }
+
+    public static String getSubStr(String str,String end){
+        return str.substring(0,str.lastIndexOf(end)+end.length());
+    }
+
+    public static String getSubStr_start(String str,String start){
+        return str.substring(str.lastIndexOf(start)+start.length());
+    }
+
+    public static int[] str2int(String[] strs){
+        return str2int(strs,0,strs.length);
+    }
+
+    public static float check_pos(float a){
+        return a>=0?a:1+a;
+    }
+
+    public static String getEncoding(String str) {
+        String encode = "UTF-8";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) { //判断是不是UTF-8
+                String s2 = encode;
+                return s2;
+            }
+        } catch (Exception exception2) {
+        }
+        encode = "GB2312";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) { //判断是不是GB2312
+                String s = encode;
+                return s; //是的话，返回“GB2312“，以下代码同理
+            }
+        } catch (Exception exception) {
+        }
+        encode = "ISO-8859-1";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) { //判断是不是ISO-8859-1
+                String s1 = encode;
+                return s1;
+            }
+        } catch (Exception exception1) {
+        }
+
+        encode = "GBK";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) { //判断是不是GBK
+                String s3 = encode;
+                return s3;
+            }
+        } catch (Exception exception3) {
+        }
+        return "";
+    }
 }
