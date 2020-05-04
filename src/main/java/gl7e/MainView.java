@@ -4,13 +4,11 @@ import com.jogamp.opengl.GL2;
 import gl7ecore.Constant;
 import gl7ecore.Screen;
 import gl7ecore.Utils;
-import gl7ecore.geom.Ball;
-import gl7ecore.geom.Cube;
-import gl7ecore.geom.ObjModel;
-import gl7ecore.geom.Rect;
+import gl7ecore.geom.*;
 import gl7ecore.utils.GLHelper;
 import gl7ecore.view.GLView;
 import gl7ecore.view.GeomView;
+import org.dom4j.DocumentException;
 
 import java.io.IOException;
 
@@ -20,6 +18,7 @@ public class MainView extends GeomView{
     Cube cube=new Cube(-1,-1,-1,2,2,2);
     Ball ball=new Ball(2,40,20);
     ObjModel objModel=new ObjModel();
+    Model7e m7e=new Model7e();
 
     int angle=0;
 
@@ -42,15 +41,21 @@ public class MainView extends GeomView{
             e.printStackTrace();
         }
 
-        //objModel.loadOBJ(gl2,getClass().getResource("/qrobot/qrobot.obj"));
-        objModel.loadOBJ(gl2,getClass().getResource("/miku/miku.obj"));
+        try {
+            m7e.loadModel(gl2,getClass().getResource("/model1.xml"));
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+        /*objModel.loadOBJ(gl2,getClass().getResource("/miku/miku.obj"));
         objModel.setScale(0.05f,0.05f,0.05f);
-        objModel.setRotation(90,180,0);
+        objModel.setRotation(90,180,0);*/
 
         //addGeom(rect);
         //gv.addGeom(cube);
         //addGeom(ball);
-        addGeom(objModel);
+        //addGeom(objModel);
+        addGeom(m7e);
 
         super.init(gl2);
     }

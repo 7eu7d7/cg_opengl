@@ -1,0 +1,20 @@
+<Model>
+    <Mesh>
+        <DrawType>tri</DrawType>
+
+        <Vertex>
+            <pos>0,0,0</pos>
+            <color>ff00ff00</color>
+        </Vertex>
+
+        <Vertex>
+            <pos>1,0,0</pos>
+            <color>ffff0000</color>
+        </Vertex>
+
+        <Vertex>
+            <pos>1,1,0</pos>
+            <color>ff0000ff</color>
+        </Vertex>
+    </Mesh>
+</Model>

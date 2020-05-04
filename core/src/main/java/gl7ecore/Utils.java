@@ -118,6 +118,9 @@ public class Utils {
         return str.substring(str.lastIndexOf(start)+start.length());
     }
 
+    public static float[] str2float(String[] strs){
+        return str2float(strs,0,strs.length);
+    }
     public static int[] str2int(String[] strs){
         return str2int(strs,0,strs.length);
     }
