@@ -43,6 +43,7 @@ project
 ##使用的文件
 
 * [主显示类](src/main/java/gl7e/ViewTest2.java)
+* [shader](core/src/main/resources/)
 * [矩形模型](src/main/resources/model2.xml)
   * [xml模型加载类](core/src/main/java/gl7ecore/geom/Model7e.java)
 * [初音未来模型](src/main/resources/miku/miku.obj)
