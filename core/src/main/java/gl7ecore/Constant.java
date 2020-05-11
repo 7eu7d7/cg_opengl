@@ -12,6 +12,8 @@ public class Constant {
     public static final int SELF_SHADER=1;
     public static final int RAW_SHADER=0;
 
+    public final static String[] FUNCTION_NAME="sin,cos,tan,arccos,arcsin,arctan,sinh,cosh,tanh,log,lg,ln,abs,max,min".split(",");
+
     public static final HashMap<String,Integer> drawTypes=new HashMap<String, Integer>();
     static {
         drawTypes.put("lines", GL2.GL_LINES);

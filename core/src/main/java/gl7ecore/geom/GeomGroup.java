@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GeomGroup implements IGeom{
-    List<IGeom> geom_group=new LinkedList<IGeom>();
+    public List<IGeom> geom_group=new LinkedList<IGeom>();
     int draw_type=GL2.GL_NONE;
 
     Vec3 position=new Vec3();

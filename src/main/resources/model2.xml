@@ -1,0 +1,7 @@
+<Model>
+    <Rect>
+        <Texture>nep.png</Texture>
+        <Area>-3,-3,6,6</Area>
+        <Colors>FFFF0000,FF00FF00,FF0000FF,FF66ccff</Colors>
+    </Rect>
+</Model>

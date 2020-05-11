@@ -47,15 +47,15 @@ public class MainView extends GeomView{
             e.printStackTrace();
         }
 
-        /*objModel.loadOBJ(gl2,getClass().getResource("/miku/miku.obj"));
+        objModel.loadOBJ(gl2,getClass().getResource("/miku/miku.obj"));
         objModel.setScale(0.05f,0.05f,0.05f);
-        objModel.setRotation(90,180,0);*/
+        objModel.setRotation(90,180,0);
 
         //addGeom(rect);
         //gv.addGeom(cube);
         //addGeom(ball);
-        //addGeom(objModel);
-        addGeom(m7e);
+        addGeom(objModel);
+        //addGeom(m7e);
 
         super.init(gl2);
     }
@@ -67,7 +67,7 @@ public class MainView extends GeomView{
 
         gl2.glRotatef(angle, 1, 0, 0);
         gl2.glRotatef(angle,0,0,1);
-        angle++;
+        //angle++;
         angle %= 360;
 
         sendTransform(gl2);

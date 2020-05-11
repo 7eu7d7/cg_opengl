@@ -21,6 +21,7 @@ public class Mesh implements IGeom {
 
     public int draw_type=GL2.GL_LINES;
     public int shader_mode=Constant.SELF_SHADER;
+    public int render_type=0; //临时
     //public int ind_group;
 
     int vtx_len;
@@ -66,6 +67,7 @@ public class Mesh implements IGeom {
 
         gl2.glUniformMatrix4fv(ShaderLodaer.mv,1,false, GLHelper.getModelViewMatrix(gl2),0);
         gl2.glUniformMatrix4fv(ShaderLodaer.proj,1,false, GLHelper.getProjectionMatrix(gl2),0);
+        gl2.glUniform1i(ShaderLodaer.type, render_type);
         draw(gl2);
 
         gl2.glPopMatrix();

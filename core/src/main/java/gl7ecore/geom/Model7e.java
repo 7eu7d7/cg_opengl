@@ -34,6 +34,12 @@ public class Model7e extends GeomGroup{
                 case "Mesh":{
                     createMesh(gl2,item);
                 }break;
+                case "Rect":{
+                    createRect(gl2,item);
+                }break;
+                case "Func":{
+                    createFunction(gl2,item);
+                }break;
             }
 
             /*List<Attribute> attributes = stu.attributes();
@@ -44,40 +50,109 @@ public class Model7e extends GeomGroup{
         }
     }
 
+    public void createRect(GL2 gl2, Element elem){
+        Rect rect=new Rect();
+
+        Iterator iterator = elem.elementIterator();
+        while (iterator.hasNext()) {
+            Element data = (Element) iterator.next();
+            switch (data.getName()){
+                case "Area":{
+                    float[] tmp=Utils.str2float(data.getStringValue().split(","));
+                    rect.set(tmp[0],tmp[1],tmp[2],tmp[3]); //x,y,w,h
+                }break;
+                case "Colors":{
+                    String[] tmp=data.getStringValue().split(",");
+                    int[] itmp=new int[4];
+                    for (int i = 0; i < tmp.length; i++) {
+                        itmp[i]=Integer.parseUnsignedInt(tmp[i],16);
+                    }
+                    rect.setColors(itmp);
+                }break;
+                case "Texture":{
+                    try {
+                        URL texurl=new URL(Utils.getSubStr(url.toString(),"/")+data.getStringValue());
+                        rect.setTexture(gl2, Utils.loadTexture(texurl));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }break;
+                default:{
+                    processMeshElem(gl2,data,rect);
+                }break;
+            }
+        }
+
+        addGeom(rect);
+    }
+
+    public void createFunction(GL2 gl2, Element elem){
+        FunctionGeom rect=new FunctionGeom();
+
+        Iterator iterator = elem.elementIterator();
+        while (iterator.hasNext()) {
+            Element data = (Element) iterator.next();
+            switch (data.getName()){
+                case "fx":{
+                    rect.funcx=data.getStringValue();
+                }break;
+                case "fy":{
+                    rect.funcy=data.getStringValue();
+                }break;
+                case "fz":{
+                    rect.funcz=data.getStringValue();
+                }break;
+                case "Range":{
+                    float[] tmp=Utils.str2float(data.getStringValue().split(","));
+                    rect.setRange(tmp[0],tmp[1],tmp[2]);
+                }break;
+                default:{
+                    processMeshElem(gl2,data,rect);
+                }break;
+            }
+        }
+
+        addGeom(rect);
+    }
+
     public void createMesh(GL2 gl2, Element elem){
         Mesh mesh=new Mesh();
 
         Iterator iterator = elem.elementIterator();
         while (iterator.hasNext()) {
             Element data = (Element) iterator.next();
-            switch (data.getName()){
-                case "Vertex":{
-                    createVertex(data,mesh);
-                }break;
-                case "Texture":{
-                    try {
-                        URL texurl=new URL(Utils.getSubStr(url.toString(),"/")+data.getStringValue());
-                        mesh.bindTexture(gl2, Utils.loadTexture(texurl));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }break;
-                case "DrawType":{
-                    mesh.draw_type= Constant.drawTypes.get(data.getStringValue());
-                }break;
-                case "Position":{
-                    mesh.setPosition(new Vec3(Utils.str2float(data.getStringValue().split(","))));
-                }break;
-                case "Rotation":{
-                    mesh.setRotation(new Vec3(Utils.str2float(data.getStringValue().split(","))));
-                }break;
-                case "Scale":{
-                    mesh.setScale(new Vec3(Utils.str2float(data.getStringValue().split(","))));
-                }break;
-            }
+            processMeshElem(gl2,data,mesh);
         }
 
         addGeom(mesh);
+    }
+
+    public void processMeshElem(GL2 gl2,Element data,Mesh mesh){
+        switch (data.getName()){
+            case "Vertex":{
+                createVertex(data,mesh);
+            }break;
+            case "Texture":{
+                try {
+                    URL texurl=new URL(Utils.getSubStr(url.toString(),"/")+data.getStringValue());
+                    mesh.bindTexture(gl2, Utils.loadTexture(texurl));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }break;
+            case "DrawType":{
+                mesh.draw_type= Constant.drawTypes.get(data.getStringValue());
+            }break;
+            case "Position":{
+                mesh.setPosition(new Vec3(Utils.str2float(data.getStringValue().split(","))));
+            }break;
+            case "Rotation":{
+                mesh.setRotation(new Vec3(Utils.str2float(data.getStringValue().split(","))));
+            }break;
+            case "Scale":{
+                mesh.setScale(new Vec3(Utils.str2float(data.getStringValue().split(","))));
+            }break;
+        }
     }
 
     public void createVertex(Element elem,Mesh mesh){

@@ -1,20 +1,33 @@
 <Model>
     <Mesh>
         <DrawType>tri</DrawType>
+        <Texture>nep.png</Texture>
 
         <Vertex>
             <pos>0,0,0</pos>
             <color>ff00ff00</color>
+            <tex>0,0</tex>
         </Vertex>
 
         <Vertex>
             <pos>1,0,0</pos>
             <color>ffff0000</color>
+            <tex>1,0</tex>
         </Vertex>
 
         <Vertex>
             <pos>1,1,0</pos>
             <color>ff0000ff</color>
+            <tex>1,1</tex>
         </Vertex>
     </Mesh>
+
+    <Func>
+        <DrawType>line_strip</DrawType>
+        <Range>0,60,0.1</Range>
+        <fx>cos(t)</fx>
+        <fy>sin(t)</fy>
+        <fz>t/10</fz>
+
+    </Func>
 </Model>

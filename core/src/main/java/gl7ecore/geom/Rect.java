@@ -6,9 +6,12 @@ import com.jogamp.opengl.util.texture.Texture;
 public class Rect extends Mesh{
     public float x,y,w,h;
 
+    public Rect(){
+        setDrawType(GL2.GL_QUADS);
+    }
+
     public Rect(float x,float y,float w,float h){
         set(x,y,w,h);
-        setDrawType(GL2.GL_QUADS);
     }
 
     @Override
@@ -24,6 +27,14 @@ public class Rect extends Mesh{
     public void set(float x, float y, float w, float h){
         this.x=x;this.y=y;
         this.w=w;this.h=h;
+    }
+
+    public void setColors(int[] cols){
+        colors.clear();
+        addColor(cols[0]);
+        addColor(cols[1]);
+        addColor(cols[2]);
+        addColor(cols[3]);
     }
 
     public void setTexture(GL2 gl2,Texture texture){
