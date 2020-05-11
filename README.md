@@ -31,7 +31,7 @@ project
 #实验2
 使用glsl语言编写了多个着色器<br>
 效果图<br>
-[<img align="right" src="imgs/task2.png" width="10%">](https://github.com/7eu7d7/cg_opengl/imgs/task2.png)
+[<img align="right" src="imgs/task2.png" width="10%">](imgs/task2.png)
 ##使用的文件
 * [主显示类](src/main/java/gl7e/ViewTest2.java)
 * [矩形模型](src/main/resources/model2.xml)
