@@ -21,7 +21,7 @@ public class Main {
 
     public static void main( String [] args ) {
 
-        screen.view=new MainView();
+        screen.view=new ViewTest3_2();
 
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities( glprofile );

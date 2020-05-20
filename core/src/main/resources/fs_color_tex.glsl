@@ -10,7 +10,7 @@ out vec4 FragColor;
 
 void main(){
     FragColor = color*texture(tex, vs_tex_coord);
-    switch(type){
+    /*switch(type){
         case 0:{ //普通纹理叠加颜色
             FragColor=FragColor;
             break;
@@ -46,5 +46,5 @@ void main(){
             FragColor=FragColor*colmat;
             break;
         }
-    }
+    }*/
 }

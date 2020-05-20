@@ -11,6 +11,7 @@ public class Rect extends Mesh{
     }
 
     public Rect(float x,float y,float w,float h){
+        this();
         set(x,y,w,h);
     }
 
