@@ -1,0 +1,34 @@
+<Model>
+
+    <Mesh>
+        <DrawType>lines</DrawType>
+        <Texture>nep.png</Texture>
+
+        <Vertex>
+            <pos>0,0,1</pos>
+            <color>ff00ff00</color>
+        </Vertex>
+
+        <Vertex>
+            <pos>0.94281,0,-0.333</pos>
+            <color>ffff66cc</color>
+        </Vertex>
+
+        <Vertex>
+            <pos>-0.4714,0.8165,-0.333</pos>
+            <color>ff0000ff</color>
+        </Vertex>
+
+        <Vertex>
+            <pos>-0.4714,-0.8165,-0.333</pos>
+            <color>ff66ccff</color>
+        </Vertex>
+
+        <Inds>0,1</Inds>
+        <Inds>0,2</Inds>
+        <Inds>0,3</Inds>
+        <Inds>1,2</Inds>
+        <Inds>2,3</Inds>
+        <Inds>3,1</Inds>
+    </Mesh>
+</Model>

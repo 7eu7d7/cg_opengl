@@ -215,6 +215,13 @@ public class Mesh implements IGeom {
         return this;
     }
 
+    public Mesh addIndices(int... inds){
+        for (int ind : inds) {
+            indices.add(ind);
+        }
+        return this;
+    }
+
     public void setPosition(Vec3 position) {
         this.position = position;
     }

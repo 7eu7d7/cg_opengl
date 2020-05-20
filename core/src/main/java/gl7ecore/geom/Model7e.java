@@ -140,6 +140,9 @@ public class Model7e extends GeomGroup{
                     e.printStackTrace();
                 }
             }break;
+            case "Inds":{
+                mesh.addIndices(Utils.str2int(data.getStringValue().split(",")));
+            }break;
             case "DrawType":{
                 mesh.draw_type= Constant.drawTypes.get(data.getStringValue());
             }break;
