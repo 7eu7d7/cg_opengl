@@ -14,6 +14,11 @@ public class GeomView extends GLView {
     }
 
     @Override
+    public void setup(GL2 gl2) {
+
+    }
+
+    @Override
     public void draw(GL2 gl2) {
         geoms.update(gl2);
     }

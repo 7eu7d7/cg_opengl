@@ -167,6 +167,9 @@ public class Model7e extends GeomGroup{
                 case "pos":{
                     mesh.addVertex(new Vec3(Utils.str2float(value.split(","))));
                 }break;
+                case "normal":{
+                    mesh.addNormal(new Vec3(Utils.str2float(value.split(","))));
+                }break;
                 case "color":{
                     mesh.addColor(Integer.parseUnsignedInt(value,16));
                 }break;

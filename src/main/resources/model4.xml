@@ -1,0 +1,33 @@
+<Model>
+
+    <Mesh>
+        <DrawType>tri_strip</DrawType>
+        <Texture>nep.png</Texture>
+
+        <Vertex>
+            <pos>0,0,1</pos>
+            <color>ff00ff00</color>
+            <normal>0,0,1</normal>
+        </Vertex>
+
+        <Vertex>
+            <pos>0.94281,0,-0.333</pos>
+            <color>ffff66cc</color>
+            <normal>0.94281,0,-0.333</normal>
+        </Vertex>
+
+        <Vertex>
+            <pos>-0.4714,0.8165,-0.333</pos>
+            <color>ff0000ff</color>
+            <normal>-0.4714,0.8165,-0.333</normal>
+        </Vertex>
+
+        <Vertex>
+            <pos>-0.4714,-0.8165,-0.333</pos>
+            <color>ff66ccff</color>
+            <normal>-0.4714,-0.8165,-0.333</normal>
+        </Vertex>
+
+        <Inds>0,1,2,3,0,1</Inds>
+    </Mesh>
+</Model>

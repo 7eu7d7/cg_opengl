@@ -16,4 +16,8 @@ public class GLHelper {
         return res;
     }
 
+    public static void setProjectionMatrix(GL2 gl2,float[] mat){
+        
+    }
+
 }

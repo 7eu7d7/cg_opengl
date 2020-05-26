@@ -12,6 +12,8 @@ public abstract class GLView {
 
     public abstract void init(GL2 gl2);
 
+    public abstract void setup(GL2 gl2);
+
     public abstract void draw(GL2 gl2);
 
     public abstract void touch(GL2 gl2);

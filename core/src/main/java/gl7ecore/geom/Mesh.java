@@ -4,16 +4,14 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.texture.Texture;
 import gl7ecore.Constant;
-import gl7ecore.Screen;
 import gl7ecore.Utils;
+import gl7ecore.light.Material;
 import gl7ecore.utils.GLHelper;
 import gl7ecore.utils.ShaderLodaer;
 import glm.vec._2.Vec2;
 import glm.vec._3.Vec3;
 
 import java.nio.Buffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,14 +19,16 @@ public class Mesh implements IGeom {
 
     public int draw_type=GL2.GL_LINES;
     public int shader_mode=Constant.SELF_SHADER;
-    public int render_type=0; //临时
+    public int render_type=0; //渲染方式
     //public int ind_group;
 
     int vtx_len;
-    Buffer vtx_buff,col_buff,ind_buff,texuv_buff; //使用自定义Buffer
+    Buffer vtx_buff,col_buff,nor_buff,ind_buff,texuv_buff; //使用自定义Buffer
     Texture texture;
+    Material material;
 
     List<Float> vertexs=new LinkedList<Float>();
+    List<Float> normals=new LinkedList<Float>();
     List<Float> colors=new LinkedList<Float>();
     List<Integer> indices=new LinkedList<Integer>();
     List<Float> texuv=new LinkedList<Float>();
@@ -41,6 +41,8 @@ public class Mesh implements IGeom {
         vtx_len=vertexs.size();
         if(!vertexs.isEmpty())
             vtx_buff=setVertexBuffer(gl2, Utils.list2arrf(vertexs));
+        if(!normals.isEmpty())
+            nor_buff=setNormalBuffer(gl2, Utils.list2arrf(normals));
         if(!colors.isEmpty())
             col_buff=setColorBuffer(gl2, Utils.list2arrf(colors));
         if(!indices.isEmpty())
@@ -93,15 +95,15 @@ public class Mesh implements IGeom {
             gl2.glEnableVertexAttribArray(Constant.vPosition);
             if(!colors.isEmpty() && !texuv.isEmpty()){
                 gl2.glEnableVertexAttribArray(Constant.tex_coord);
-                gl2.glEnableVertexAttribArray(Constant.aColor);
+                gl2.glEnableVertexAttribArray(Constant.vColor);
             }else if(!colors.isEmpty()){
                 gl2.glDisableVertexAttribArray(Constant.tex_coord);
-                gl2.glEnableVertexAttribArray(Constant.aColor);
+                gl2.glEnableVertexAttribArray(Constant.vColor);
             }else if(!texuv.isEmpty()){
-                gl2.glDisableVertexAttribArray(Constant.aColor);
+                gl2.glDisableVertexAttribArray(Constant.vColor);
                 gl2.glEnableVertexAttribArray(Constant.tex_coord);
             }else {
-                gl2.glDisableVertexAttribArray(Constant.aColor);
+                gl2.glDisableVertexAttribArray(Constant.vColor);
                 gl2.glDisableVertexAttribArray(Constant.tex_coord);
             }
         }
@@ -114,7 +116,7 @@ public class Mesh implements IGeom {
 
         if (shader_mode==Constant.RAW_SHADER){
             gl2.glUseProgram(0);
-            gl2.glDisableVertexAttribArray(Constant.aColor);
+            gl2.glDisableVertexAttribArray(Constant.vColor);
             gl2.glDisableVertexAttribArray(Constant.tex_coord);
             gl2.glDisableVertexAttribArray(Constant.vPosition);
 
@@ -136,15 +138,23 @@ public class Mesh implements IGeom {
             }
 
         }else if(shader_mode==Constant.SELF_SHADER) {
-            gl2.glUseProgram(selectProg(gl2));
+            int prod_id=selectProg(gl2);
+            gl2.glUseProgram(prod_id);
 
             if (!vertexs.isEmpty())
                 gl2.glVertexAttribPointer(Constant.vPosition, 4, GL2.GL_FLOAT, false, 0, vtx_buff.rewind());
 
             if (!colors.isEmpty())
-                gl2.glVertexAttribPointer(Constant.aColor, 4, GL2.GL_FLOAT, false, 0, col_buff.rewind());
+                gl2.glVertexAttribPointer(Constant.vColor, 4, GL2.GL_FLOAT, false, 0, col_buff.rewind());
             else
-                gl2.glVertexAttrib4f(Constant.aColor,1,1,1,1);  //默认颜色为白色
+                gl2.glVertexAttrib4f(Constant.vColor,1,1,1,1);  //默认颜色为白色
+
+            if (!normals.isEmpty()) {
+                gl2.glVertexAttribPointer(Constant.vNormal, 3, GL2.GL_FLOAT, false, 0, nor_buff.rewind());
+            }
+
+            if (material!=null)
+                material.send(gl2,prod_id);
 
             if (!texuv.isEmpty()) {
                 gl2.glActiveTexture(GL2.GL_TEXTURE0);
@@ -153,6 +163,7 @@ public class Mesh implements IGeom {
                 gl2.glUniform1i(ShaderLodaer.tex, 0);
                 gl2.glVertexAttribPointer(Constant.tex_coord, 2, GL2.GL_FLOAT, false, 0, texuv_buff.rewind());
             }
+
         }
 
         if(!indices.isEmpty()){
@@ -181,6 +192,17 @@ public class Mesh implements IGeom {
 
     public void clear(){
         vertexs.clear();
+    }
+
+    public Mesh addNormal(float x,float y,float z){
+        normals.add(x);
+        normals.add(y);
+        normals.add(z);
+        return this;
+    }
+
+    public Mesh addNormal(Vec3 vec){
+        return addNormal(vec.x,vec.y,vec.z);
     }
 
     //color builder
@@ -222,6 +244,11 @@ public class Mesh implements IGeom {
         return this;
     }
 
+    public void setMaterial(Material material) {
+        this.material = material;
+        render_type=1;
+    }
+
     public void setPosition(Vec3 position) {
         this.position = position;
     }
@@ -251,9 +278,15 @@ public class Mesh implements IGeom {
         return GLBuffers.newDirectFloatBuffer(vertexData);
     }
 
+    public Buffer setNormalBuffer(GL2 gl2, float[] normalData){
+        //绑定顶点
+        gl2.glEnableVertexAttribArray(Constant.vNormal);
+        return GLBuffers.newDirectFloatBuffer(normalData);
+    }
+
     public Buffer setColorBuffer(GL2 gl2, float[] colorData){
         //绑定颜色
-        gl2.glEnableVertexAttribArray(Constant.aColor);
+        gl2.glEnableVertexAttribArray(Constant.vColor);
         return GLBuffers.newDirectFloatBuffer(colorData);
     }
 

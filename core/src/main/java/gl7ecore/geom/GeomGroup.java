@@ -1,6 +1,7 @@
 package gl7ecore.geom;
 
 import com.jogamp.opengl.GL2;
+import gl7ecore.light.Material;
 import gl7ecore.utils.GLHelper;
 import gl7ecore.utils.ShaderLodaer;
 import glm.vec._3.Vec3;
@@ -11,6 +12,7 @@ import java.util.List;
 public class GeomGroup implements IGeom{
     public List<IGeom> geom_group=new LinkedList<IGeom>();
     int draw_type=GL2.GL_NONE;
+    Material material;
 
     Vec3 position=new Vec3();
     Vec3 rotation=new Vec3();
@@ -42,6 +44,8 @@ public class GeomGroup implements IGeom{
         for(IGeom geom:geom_group){
             if(draw_type!=GL2.GL_NONE)
                 geom.setDrawType(draw_type);
+            if(material!=null)
+                ((Mesh)geom).setMaterial(material);
             geom.build(gl2);
         }
     }
@@ -59,6 +63,9 @@ public class GeomGroup implements IGeom{
         geom_group.clear();
     }
 
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
 
     public void setPosition(Vec3 position) {
         this.position = position;
