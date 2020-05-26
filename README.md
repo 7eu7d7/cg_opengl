@@ -29,6 +29,9 @@ project
 │        │   Main            //主类
 │        │   ViewTest1       //实验1
 │        │   ViewTest2       //实验2
+│        │   ViewTest3       //实验3
+│        │   ViewTest4       //实验4
+│        │   ViewTest5       //实验5
 └───imgs         //实验效果图片
 ```
 
