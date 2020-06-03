@@ -19,9 +19,11 @@ import java.net.URL;
 public class Main {
     public static Screen screen=new Screen();
 
+
+
     public static void main( String [] args ) {
 
-        screen.view=new ViewTest5();
+        screen.view=new ViewTest6();
 
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities( glprofile );

@@ -3,8 +3,11 @@ package gl7ecore;
 import com.jogamp.opengl.GLException;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
+import com.jogamp.opengl.util.texture.spi.DDSImage;
+import gl7ecore.utils.DDSReader;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.List;
@@ -13,8 +16,15 @@ public class Utils {
     public static Texture loadTexture(URL url) throws GLException, IOException
     {
         //String font=getSubStr_start(url.toString(),".").toLowerCase();
+        BufferedImage bim=null;
+        if(url.toString().endsWith(".dds")) {
+            bim = DDSReader.read(url.openStream());
+        }else {
+            bim = ImageIO.read(url.openStream());
+        }
+
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(ImageIO.read(url.openStream()), "png", os);
+        ImageIO.write(bim, "png", os);
         InputStream fis = new ByteArrayInputStream(os.toByteArray());
         return TextureIO.newTexture(fis, true, TextureIO.PNG);
     }

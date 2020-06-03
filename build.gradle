@@ -8,14 +8,21 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    //maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile project(":core")
+    implementation 'com.github.kotlin-graphics:assimp:v4.0-beta.13'
+    compile "org.lwjgl:lwjgl:3.2.1"
+    runtimeOnly "org.lwjgl:lwjgl:3.2.1:natives-windows"
+    compile "org.slf4j:slf4j-simple:1.7.25"
+
     compile group: 'org.jogamp.jogl', name: 'jogl-all-main', version: '2.3.2'
     compile "org.jogamp.gluegen:gluegen-rt:2.3.2"
     compile group: 'io.github.java-graphics', name: 'glm', version: '1.0.1'
+
 
     runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-amd64"
     runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-i586"
