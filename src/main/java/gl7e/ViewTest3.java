@@ -43,7 +43,6 @@ public class ViewTest3 extends GeomView {
         objModel.setPosition((float) (2*Math.cos(Math.toRadians(angle))),(float)(2*Math.sin(Math.toRadians(angle))),0);
         objModel.setScale(0.05f, 0.03f*(float) (Math.cos(Math.toRadians(angle)))+0.05f,0.05f);
 
-        sendTransform(gl2);
         super.draw(gl2);
     }
 }

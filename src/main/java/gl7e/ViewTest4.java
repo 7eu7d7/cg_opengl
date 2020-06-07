@@ -33,7 +33,6 @@ public class ViewTest4 extends GeomView {
 
         md1.setRotation(rx,0,rz);
 
-        sendTransform(gl2);
         super.draw(gl2);
     }
 }

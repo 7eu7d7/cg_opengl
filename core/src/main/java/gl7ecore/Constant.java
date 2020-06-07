@@ -1,6 +1,7 @@
 package gl7ecore;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.texture.Texture;
 
 import java.util.HashMap;
 
@@ -9,9 +10,13 @@ public class Constant {
     public static final int vColor =1;
     public static final int vNormal=2;
     public static final int tex_coord=3;
+    public static final int bones=4;
+    public static final int weights=5;
 
     public static final int SELF_SHADER=1;
     public static final int RAW_SHADER=0;
+
+    public static final double TIME_PER_TICK=20f/1000;
 
     public final static String[] FUNCTION_NAME="sin,cos,tan,arccos,arcsin,arctan,sinh,cosh,tanh,log,lg,ln,abs,max,min".split(",");
 

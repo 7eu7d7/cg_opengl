@@ -8,11 +8,13 @@ import java.nio.IntBuffer;
 
 public class ShaderLodaer {
     public static int COLOR_TEX;
+    public static int COLOR_TEX_BONE;
 
     public static int mv,proj,tex,type;
 
     public static void loadAllShader(GL2 gl2){
         COLOR_TEX = ShaderLodaer.loadShader(gl2, "/vs_color_tex.glsl","/fs_color_tex.glsl");
+        COLOR_TEX_BONE = ShaderLodaer.loadShader(gl2, "/vs_color_tex_bone.glsl","/fs_color_tex.glsl");
 
         mv = gl2.glGetUniformLocation(COLOR_TEX,"mv");
         proj = gl2.glGetUniformLocation(COLOR_TEX,"proj");

@@ -70,7 +70,6 @@ public class MainView extends GeomView{
         angle++;
         angle %= 360;
 
-        sendTransform(gl2);
         super.draw(gl2);
     }
 

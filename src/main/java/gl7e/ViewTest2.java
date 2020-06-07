@@ -25,7 +25,7 @@ public class ViewTest2 extends GeomView {
     @Override
     public void draw(GL2 gl2) {
         glu.gluLookAt(0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-        sendTransform(gl2);
+
         super.draw(gl2);
     }
 }

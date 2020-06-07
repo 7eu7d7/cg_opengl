@@ -1,5 +1,6 @@
 package gl7ecore.geom;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.texture.Texture;
@@ -15,27 +16,23 @@ import java.nio.Buffer;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Mesh implements IGeom {
+public class Mesh extends IGeom {
 
-    public int draw_type=GL2.GL_LINES;
     public int shader_mode=Constant.SELF_SHADER;
     public int render_type=0; //渲染方式
     //public int ind_group;
 
+    int prog_id;
+
     int vtx_len;
     Buffer vtx_buff,col_buff,nor_buff,ind_buff,texuv_buff; //使用自定义Buffer
     Texture texture;
-    Material material;
 
     List<Float> vertexs=new LinkedList<Float>();
     List<Float> normals=new LinkedList<Float>();
     List<Float> colors=new LinkedList<Float>();
     List<Integer> indices=new LinkedList<Integer>();
     List<Float> texuv=new LinkedList<Float>();
-
-    Vec3 position=new Vec3();
-    Vec3 rotation=new Vec3();
-    Vec3 scale=new Vec3(1,1,1);
 
     public void build(GL2 gl2) {
         vtx_len=vertexs.size();
@@ -51,28 +48,6 @@ public class Mesh implements IGeom {
             texuv_buff=setTextureBuffer(gl2,Utils.list2arrf(texuv));
 
         //gl2.glTexCoordPointer(2, GL2.GL_FLOAT, 0, textureCoords);
-    }
-
-    @Override
-    public void setDrawType(int type) {
-        draw_type=type;
-    }
-
-    @Override
-    public void update(GL2 gl2) {
-        gl2.glPushMatrix();
-        gl2.glTranslatef(position.x,position.y,position.z);
-        gl2.glRotatef(rotation.x,1,0,0);
-        gl2.glRotatef(rotation.y,0,1,0);
-        gl2.glRotatef(rotation.z,0,0,1);
-        gl2.glScalef(scale.x, scale.y, scale.z);
-
-        gl2.glUniformMatrix4fv(ShaderLodaer.mv,1,false, GLHelper.getModelViewMatrix(gl2),0);
-        gl2.glUniformMatrix4fv(ShaderLodaer.proj,1,false, GLHelper.getProjectionMatrix(gl2),0);
-        gl2.glUniform1i(ShaderLodaer.type, render_type);
-        draw(gl2);
-
-        gl2.glPopMatrix();
     }
 
     /*public int selectProg(){
@@ -138,8 +113,12 @@ public class Mesh implements IGeom {
             }
 
         }else if(shader_mode==Constant.SELF_SHADER) {
-            int prod_id=selectProg(gl2);
-            gl2.glUseProgram(prod_id);
+            prog_id = selectProg(gl2);
+            gl2.glUseProgram(prog_id);
+
+            gl2.glUniformMatrix4fv(gl2.glGetUniformLocation(prog_id,"mv"),1,false, GLHelper.getModelViewMatrix(gl2),0);
+            gl2.glUniformMatrix4fv(gl2.glGetUniformLocation(prog_id,"proj"),1,false, GLHelper.getProjectionMatrix(gl2),0);
+            gl2.glUniform1i(gl2.glGetUniformLocation(prog_id,"type"), render_type);
 
             if (!vertexs.isEmpty())
                 gl2.glVertexAttribPointer(Constant.vPosition, 4, GL2.GL_FLOAT, false, 0, vtx_buff.rewind());
@@ -154,15 +133,17 @@ public class Mesh implements IGeom {
             }
 
             if (material!=null)
-                material.send(gl2,prod_id);
+                material.send(gl2, prog_id);
 
             if (!texuv.isEmpty()) {
                 gl2.glActiveTexture(GL2.GL_TEXTURE0);
                 texture.enable(gl2);
                 texture.bind(gl2);
-                gl2.glUniform1i(ShaderLodaer.tex, 0);
+                gl2.glUniform1i(gl2.glGetUniformLocation(prog_id,"tex"), 0);
                 gl2.glVertexAttribPointer(Constant.tex_coord, 2, GL2.GL_FLOAT, false, 0, texuv_buff.rewind());
             }
+
+            sendShaderDatas(gl2); //发送额外的数据
 
         }
 
@@ -170,6 +151,10 @@ public class Mesh implements IGeom {
             gl2.glDrawElements(draw_type, indices.size(),gl2.GL_UNSIGNED_INT,ind_buff.rewind());
         }else
             gl2.glDrawArrays(draw_type, 0, vtx_len/4) ;
+
+    }
+
+    public void sendShaderDatas(GL2 gl2){
 
     }
 
@@ -261,31 +246,8 @@ public class Mesh implements IGeom {
     }
 
     public void setMaterial(Material material) {
-        this.material = material;
+        super.setMaterial(material);
         render_type=1;
-    }
-
-    public void setPosition(Vec3 position) {
-        this.position = position;
-    }
-
-    public void setPosition(float x,float y,float z) {
-        position.set(x,y,z);
-    }
-
-    public void setRotation(Vec3 rotation) {
-        this.rotation = rotation;
-    }
-
-    public void setRotation(float x,float y,float z) {
-        rotation.set(x,y,z);
-    }
-
-    public void setScale(Vec3 scale) {
-        this.scale = scale;
-    }
-    public void setScale(float x,float y,float z) {
-        scale.set(x,y,z);
     }
 
     public Buffer setVertexBuffer(GL2 gl2, float[] vertexData){
@@ -295,7 +257,7 @@ public class Mesh implements IGeom {
     }
 
     public Buffer setNormalBuffer(GL2 gl2, float[] normalData){
-        //绑定顶点
+        //绑定法线
         gl2.glEnableVertexAttribArray(Constant.vNormal);
         return GLBuffers.newDirectFloatBuffer(normalData);
     }

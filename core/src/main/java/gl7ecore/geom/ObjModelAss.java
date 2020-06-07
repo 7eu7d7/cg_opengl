@@ -11,24 +11,24 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-public class FBXModel extends GeomGroup{
+public class ObjModelAss extends GeomGroup{
 
     private URL url_load;
 
-    public FBXModel(){
+    public ObjModelAss(){
         draw_type= GL2.GL_TRIANGLES;
     }
 
-    public FBXModel(GL2 gl2,URL url){
+    public ObjModelAss(GL2 gl2, URL url){
         this();
         try {
-            loadFBX(gl2,url);
+            loadOBJ(gl2,url);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void loadFBX(GL2 gl2,URL url) throws Exception {
+    public void loadOBJ(GL2 gl2,URL url) throws Exception {
         url_load=url;
         AiScene scene=new Importer().readFile(url);
         if(scene==null || scene.rootNode==null){
@@ -65,7 +65,7 @@ public class FBXModel extends GeomGroup{
                 }
 
                 //Texture
-                if((tmp=coords.get(0).get(i))!=null){
+                if(coords.size()>0 && (tmp=coords.get(0).get(i))!=null){
                     //tmp=coords.get(i).get(0);
                     now_mesh.addTex(Utils.check_pos(tmp[0]),Utils.check_pos(tmp[1]));
                 } else {

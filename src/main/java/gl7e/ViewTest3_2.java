@@ -35,7 +35,6 @@ public class ViewTest3_2 extends GeomView {
                 0,0,0,1
         },0);
 
-        sendTransform(gl2);
         super.draw(gl2);
     }
 }

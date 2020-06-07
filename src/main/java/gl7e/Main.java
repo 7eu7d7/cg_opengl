@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.URL;
 
 /**
  * A minimal program that draws with JOGL in a Swing JFrame using the AWT GLCanvas.
@@ -60,7 +59,7 @@ public class Main {
         });
 
         jframe.getContentPane().add( glcanvas, BorderLayout.CENTER );
-        jframe.setSize( 1280, 720 );
+        jframe.setSize( 1280, 1000 );
         jframe.setVisible( true );
 
         //updater
@@ -71,7 +70,7 @@ public class Main {
                     long start = System.currentTimeMillis();
                     glcanvas.repaint();
                     try {
-                        Thread.sleep(20 - (System.currentTimeMillis() - start));
+                        Thread.sleep(Math.max(0,20 - (System.currentTimeMillis() - start)));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

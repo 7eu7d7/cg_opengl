@@ -10,11 +10,17 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 public class Utils {
+    public static HashMap<URL,Texture> tex_pool=new HashMap<URL,Texture>();
+
     public static Texture loadTexture(URL url) throws GLException, IOException
     {
+        if(tex_pool.containsKey(url))
+            return tex_pool.get(url);
+
         //String font=getSubStr_start(url.toString(),".").toLowerCase();
         BufferedImage bim=null;
         if(url.toString().endsWith(".dds")) {
@@ -26,7 +32,9 @@ public class Utils {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ImageIO.write(bim, "png", os);
         InputStream fis = new ByteArrayInputStream(os.toByteArray());
-        return TextureIO.newTexture(fis, true, TextureIO.PNG);
+        Texture texture=TextureIO.newTexture(fis, true, TextureIO.PNG);
+        tex_pool.put(url,texture);
+        return texture;
     }
 
     public static Texture loadTexture(String file,Class cls) throws GLException, IOException

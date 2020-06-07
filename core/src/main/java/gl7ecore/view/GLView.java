@@ -18,8 +18,8 @@ public abstract class GLView {
 
     public abstract void touch(GL2 gl2);
 
-    public void sendTransform(GL2 gl2){
+    /*public void sendTransform(GL2 gl2){
         gl2.glUniformMatrix4fv(ShaderLodaer.mv,1,false, GLHelper.getModelViewMatrix(gl2),0);
         gl2.glUniformMatrix4fv(ShaderLodaer.proj,1,false, GLHelper.getProjectionMatrix(gl2),0);
-    }
+    }*/
 }

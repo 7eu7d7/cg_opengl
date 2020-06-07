@@ -1,9 +1,6 @@
 package gl7e;
 
-import assimp.AiScene;
 import com.jogamp.opengl.GL2;
-import gl7ecore.geom.DAEModel;
-import gl7ecore.geom.FBXModel;
 import gl7ecore.geom.Model7e;
 import gl7ecore.light.Light;
 import gl7ecore.light.Material;
@@ -12,15 +9,16 @@ import gl7ecore.view.GeomView;
 import glm.vec._3.Vec3;
 import org.dom4j.DocumentException;
 
-import java.net.URL;
-
 public class ViewTest6 extends GeomView {
 
     int rx,rz;
     Model7e m7e=new Model7e();
-    DAEModel fbx;
 
-    Light light=new Light(0);
+    int[] blend_funcs={
+            GL2.GL_ZERO,GL2.GL_ONE,GL2.GL_SRC_COLOR,GL2.GL_ONE_MINUS_SRC_COLOR,GL2.GL_DST_COLOR,GL2.GL_ONE_MINUS_DST_COLOR,
+            GL2.GL_SRC_ALPHA,GL2.GL_ONE_MINUS_SRC_ALPHA,GL2.GL_DST_ALPHA,GL2.GL_ONE_MINUS_DST_ALPHA,GL2.GL_CONSTANT_COLOR,
+            GL2.GL_ONE_MINUS_CONSTANT_COLOR,GL2.GL_CONSTANT_ALPHA,GL2.GL_ONE_MINUS_CONSTANT_ALPHA,GL2.GL_SRC_ALPHA_SATURATE
+    };
 
     @Override
     public void init(GL2 gl2) {
@@ -32,18 +30,11 @@ public class ViewTest6 extends GeomView {
             e.printStackTrace();
         }
 
-        //addGeom(m7e);
+        m7e.setScale(0.2f,0.2f,0.2f);
+        m7e.build(gl2);
+        System.out.println(blend_funcs.length);
 
-        fbx=new DAEModel(gl2, getClass().getResource("/nep/nep.DAE"));
-        //fbx.setScale(0.05f,0.05f,0.05f);
-        fbx.setScale(3f,3f,3f);
-
-        Material mat=new Material();
-        mat.setAmbient(new Vec3(0.2f));
-        mat.setSpecular(new Vec3(1f));
-        mat.setShininess(1.0f);
-        fbx.setMaterial(mat);
-        addGeom(fbx);
+        gl2.glClearColor(0.4f,0.8f,1f,1f);
 
         super.init(gl2);
     }
@@ -54,16 +45,18 @@ public class ViewTest6 extends GeomView {
 
         gl2.glMatrixMode(GL2.GL_PROJECTION);
         gl2.glLoadIdentity();
-        float ratio=1280f/720;
+        float ratio=1280f/1000;
+        //正交投影
+        gl2.glOrthof(-10,10,-10/ratio,10/ratio,1,142);
         //透视投影
-        gl2.glFrustumf(-ratio,ratio,-1,1,1,142);
+        //gl2.glFrustumf(-ratio,ratio,-1,1,1,142);
         gl2.glMatrixMode(GL2.GL_MODELVIEW);
     }
 
     @Override
     public void draw(GL2 gl2) {
-
-        glu.gluLookAt(3, 5, 3, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+        //glu.gluLookAt(3, 5, 3, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+        glu.gluLookAt(0, 0, 8, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
         gl2.glPrimitiveRestartIndex(0xffff);
         gl2.glEnable(GL2.GL_PRIMITIVE_RESTART);
@@ -71,12 +64,17 @@ public class ViewTest6 extends GeomView {
         rx++;rz++;
         rx%=360;rz%=360;
 
-        fbx.setRotation(rx,0,rz);
+        m7e.setRotation(rx,0,rz);
 
-        sendTransform(gl2);
-        light.send(gl2, ShaderLodaer.COLOR_TEX);
+        gl2.glBlendEquation(GL2.GL_MAX);
 
-        super.draw(gl2);
+        for (int i = 0; i < blend_funcs.length; i++) {
+            for (int u = 0; u < blend_funcs.length; u++) {
+                gl2.glBlendFunc(blend_funcs[i],blend_funcs[u]);
+                m7e.setPosition(-8+1*u, -7 + 1*i, 0);
+                m7e.update(gl2);
+            }
+        }
 
     }
 }

@@ -21,6 +21,8 @@ public class Screen {
         gl2.glDepthMask(true);
         //gl2.glShadeModel(GL2.GL_SMOOTH);
 
+        gl2.glEnable(GL2.GL_BLEND); //开启颜色混合
+
         ShaderLodaer.loadAllShader(gl2);
 
         view.init(gl2);
