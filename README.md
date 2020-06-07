@@ -32,6 +32,8 @@ project
 │        │   ViewTest3       //实验3
 │        │   ViewTest4       //实验4
 │        │   ViewTest5       //实验5
+│        │   ViewTest6       //实验6
+│        │   ViewTest7       //实验7
 └───imgs         //实验效果图片
 ```
 

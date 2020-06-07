@@ -22,6 +22,11 @@ public class Rect extends Mesh{
         addVertex(right(),bottom(),0);
         addVertex(left(),bottom(),0);
 
+        addNormal(0,0,1);
+        addNormal(0,0,1);
+        addNormal(0,0,1);
+        addNormal(0,0,1);
+
         super.build(gl2);
     }
 

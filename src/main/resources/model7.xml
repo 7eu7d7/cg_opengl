@@ -1,0 +1,31 @@
+<Model>
+    <Mesh>
+        <Texture>nep.png</Texture>
+        <DrawType>quads</DrawType>
+
+        <Vertex>
+            <pos>-4,2,0</pos>
+            <tex>0,0</tex>
+            <normal>0,0,1</normal>
+        </Vertex>
+
+        <Vertex>
+            <pos>20,2,0</pos>
+            <tex>6,0</tex>
+            <normal>0,0,1</normal>
+        </Vertex>
+
+        <Vertex>
+            <pos>20,-2,0</pos>
+            <tex>6,1</tex>
+            <normal>0,0,1</normal>
+        </Vertex>
+
+        <Vertex>
+            <pos>-4,-2,0</pos>
+            <tex>0,1</tex>
+            <normal>0,0,1</normal>
+        </Vertex>
+
+    </Mesh>
+</Model>
