@@ -21,10 +21,10 @@ public abstract class IGeom {
     */
      public void update(GL2 gl2){
          gl2.glPushMatrix();
-         gl2.glTranslatef(position.x,position.y,position.z);
          gl2.glRotatef(rotation.x,1,0,0);
          gl2.glRotatef(rotation.y,0,1,0);
          gl2.glRotatef(rotation.z,0,0,1);
+         gl2.glTranslatef(position.x,position.y,position.z);
          gl2.glScalef(scale.x, scale.y, scale.z);
 
          draw(gl2);

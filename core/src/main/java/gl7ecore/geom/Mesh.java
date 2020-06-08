@@ -6,6 +6,7 @@ import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.texture.Texture;
 import gl7ecore.Constant;
 import gl7ecore.Utils;
+import gl7ecore.light.Light;
 import gl7ecore.light.Material;
 import gl7ecore.utils.GLHelper;
 import gl7ecore.utils.ShaderLodaer;
@@ -132,8 +133,14 @@ public class Mesh extends IGeom {
                 gl2.glVertexAttribPointer(Constant.vNormal, 3, GL2.GL_FLOAT, false, 0, nor_buff.rewind());
             }
 
-            if (material!=null)
+            if (material!=null && prog_id==ShaderLodaer.COLOR_TEX) {
                 material.send(gl2, prog_id);
+                for (Light light : Constant.light_list) {
+                    if(light!=null){
+                        light.send(gl2,prog_id);
+                    }
+                }
+            }
 
             if (!texuv.isEmpty()) {
                 gl2.glActiveTexture(GL2.GL_TEXTURE0);

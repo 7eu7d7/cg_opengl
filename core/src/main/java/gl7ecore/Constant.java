@@ -2,6 +2,7 @@ package gl7ecore;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
+import gl7ecore.light.Light;
 
 import java.util.HashMap;
 
@@ -12,6 +13,7 @@ public class Constant {
     public static final int tex_coord=3;
     public static final int bones=4;
     public static final int weights=5;
+    public static final int tex3d_coord=10;
 
     public static final int SELF_SHADER=1;
     public static final int RAW_SHADER=0;
@@ -19,6 +21,8 @@ public class Constant {
     public static final double TIME_PER_TICK=20f/1000;
 
     public final static String[] FUNCTION_NAME="sin,cos,tan,arccos,arcsin,arctan,sinh,cosh,tanh,log,lg,ln,abs,max,min".split(",");
+
+    public static Light[] light_list=new Light[10];
 
     public static final HashMap<String,Integer> drawTypes=new HashMap<String, Integer>();
     static {

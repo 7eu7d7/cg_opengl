@@ -9,17 +9,21 @@ import java.nio.IntBuffer;
 public class ShaderLodaer {
     public static int COLOR_TEX;
     public static int COLOR_TEX_BONE;
+    public static int COLOR_TEX3D;
+    public static int SKY_BOX;
 
-    public static int mv,proj,tex,type;
+    //public static int mv,proj,tex,type;
 
     public static void loadAllShader(GL2 gl2){
         COLOR_TEX = ShaderLodaer.loadShader(gl2, "/vs_color_tex.glsl","/fs_color_tex.glsl");
         COLOR_TEX_BONE = ShaderLodaer.loadShader(gl2, "/vs_color_tex_bone.glsl","/fs_color_tex.glsl");
+        COLOR_TEX3D = ShaderLodaer.loadShader(gl2, "/vs_color_tex3d.glsl","/fs_color_tex3d.glsl");
+        SKY_BOX = ShaderLodaer.loadShader(gl2, "/vs_skybox.glsl","/fs_skybox.glsl");
 
-        mv = gl2.glGetUniformLocation(COLOR_TEX,"mv");
+        /*mv = gl2.glGetUniformLocation(COLOR_TEX,"mv");
         proj = gl2.glGetUniformLocation(COLOR_TEX,"proj");
         tex = gl2.glGetUniformLocation(COLOR_TEX,"tex");
-        type = gl2.glGetUniformLocation(COLOR_TEX,"type");
+        type = gl2.glGetUniformLocation(COLOR_TEX,"type");*/
     }
 
     public static int loadShader(GL2 gl2, String vtx, String frag){

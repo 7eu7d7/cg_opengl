@@ -1,0 +1,29 @@
+<Model>
+    <Rect>
+        <Texture>nep.png</Texture>
+        <Area>-100,-100,200,200</Area>
+        <Position>0,0,-100</Position>
+    </Rect>
+
+    <Rect>
+        <Texture>nep.png</Texture>
+        <Area>-100,-100,200,200</Area>
+        <Position>0,0,100</Position>
+    </Rect>
+
+    <Rect>
+        <Texture>nep.png</Texture>
+        <Area>-100,-100,200,200</Area>
+        <Position>90,0,0</Position>
+        <Rotation>0,100,0</Rotation>
+    </Rect>
+
+    <Rect>
+        <Texture>nep.png</Texture>
+        <Area>-100,-100,200,200</Area>
+        <Position>90,0,0</Position>
+        <Rotation>0,-100,0</Rotation>
+    </Rect>
+
+
+</Model>

@@ -22,7 +22,7 @@ public class Main {
 
     public static void main( String [] args ) {
 
-        screen.view=new ViewTest7();
+        screen.view=new ViewTest8_2();
 
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities( glprofile );
@@ -59,7 +59,7 @@ public class Main {
         });
 
         jframe.getContentPane().add( glcanvas, BorderLayout.CENTER );
-        jframe.setSize( 1280, 1000 );
+        jframe.setSize( 1280, 720 );
         jframe.setVisible( true );
 
         //updater

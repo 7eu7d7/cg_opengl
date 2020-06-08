@@ -34,7 +34,7 @@ public class Screen {
         gl2.glLoadIdentity();
         float ratio=(float)width/height;
         //gl2.glOrthof(-10,10,-10/ratio,10/ratio,1,142);
-        gl2.glFrustumf(-ratio,ratio,-1,1,1,142);
+        gl2.glFrustumf(-ratio,ratio,-1,1,1f,1420);
         gl2.glMatrixMode(GL2.GL_MODELVIEW);
         view.setup(gl2);
     }
