@@ -9,11 +9,11 @@ public class Light {
     boolean isEnabled=true; //是否开启
     boolean isLocal=false; //是否为点光源或聚光灯
     boolean isSpot=false; //是否为聚光灯
-    Vec3 ambient=new Vec3(1); //光照强度
-    Vec3 color=new Vec3(1,1,1); //颜色
-    Vec3 position=new Vec3(0,0,1); //光源位置
-    Vec3 halfVector=new Vec3(0,0,1); //平行光的高光方向
-    Vec3 coneDirection=new Vec3(0,0,-1); //聚光灯方向
+    public Vec3 ambient=new Vec3(1); //光照强度
+    public Vec3 color=new Vec3(1,1,1); //颜色
+    public Vec3 position=new Vec3(0,0,1); //光源位置
+    public Vec3 halfVector=new Vec3(0,0,1); //平行光的高光方向
+    public Vec3 coneDirection=new Vec3(0,0,-1); //聚光灯方向
     float spotCosCutoff=180; //椎体夹角
     float spotExponent=1;
     //衰减系数

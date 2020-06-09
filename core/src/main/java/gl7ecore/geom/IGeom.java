@@ -11,7 +11,7 @@ public abstract class IGeom {
     Vec3 rotation=new Vec3();
     Vec3 scale=new Vec3(1,1,1);
 
-    Material material;
+    public Material material;
 
      /*
         首先需要创建一个几何体对象

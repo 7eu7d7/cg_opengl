@@ -8,6 +8,8 @@ public class Ball extends Mesh{
 
     int splith=10,splitv=10;
     float r;
+    int color=0;
+    boolean normal_on=false;
 
     public Ball(float r){
         this(r,10,10);
@@ -34,16 +36,40 @@ public class Ball extends Mesh{
                 addVertex(rxy * Utils.cosd(h+steph),
                         rxy * Utils.sind(h+steph),
                         r * Utils.cosd(v));
+                if(color!=0){
+                    addColor(color);
+                    addColor(color);
+                }
+                if(normal_on){
+                    addNormal(rxy * Utils.cosd(h),
+                            rxy * Utils.sind(h),
+                            r * Utils.cosd(v));
+                    addNormal(rxy * Utils.cosd(h+steph),
+                            rxy * Utils.sind(h+steph),
+                            r * Utils.cosd(v));
+                }
             }
         }
 
         super.build(gl2);
     }
 
+    public void setColor(int col){
+        color=col;
+    }
+
+    public void normalON(){
+        normal_on=true;
+    }
+
+    public void normalOFF(){
+        normal_on=false;
+    }
+
     public void setTexture(GL2 gl2,Texture texture){
         texuv.clear();
 
-        for(float h=0;h<splith/2;h++){
+        /*for(float h=0;h<splith/2;h++){
             for(float v=0;v<splitv;v++){
                 addTex(h/splith,v/splitv);
                 addTex((h+1)/splith,v/splitv);
@@ -52,7 +78,7 @@ public class Ball extends Mesh{
                 addTex(0.5f+h/splith,1-v/splitv);
                 addTex(0.5f+(h+1)/splith,1-v/splitv);
             }
-        }
+        }*/
         bindTexture(gl2,texture);
     }
 }

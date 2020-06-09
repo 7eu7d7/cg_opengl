@@ -23,7 +23,7 @@ public class Mesh extends IGeom {
     public int render_type=0; //渲染方式
     //public int ind_group;
 
-    int prog_id;
+    public int prog_id;
 
     int vtx_len;
     Buffer vtx_buff,col_buff,nor_buff,ind_buff,texuv_buff; //使用自定义Buffer

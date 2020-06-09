@@ -5,11 +5,11 @@ import glm.vec._3.Vec3;
 
 public class Material {
 
-    Vec3 emission=new Vec3(0.0f); // 自发光颜色
-    Vec3 ambient=new Vec3(0.2f); // 环境光颜色
-    Vec3 diffuse=new Vec3(0.8f); // 漫反射颜色
-    Vec3 specular=new Vec3(0); // 镜面反射颜色
-    float shininess=0; // 镜面指数
+    public Vec3 emission=new Vec3(0.0f); // 自发光颜色
+    public Vec3 ambient=new Vec3(0.2f); // 环境光颜色
+    public Vec3 diffuse=new Vec3(0.8f); // 漫反射颜色
+    public Vec3 specular=new Vec3(0); // 镜面反射颜色
+    public float shininess=0; // 镜面指数
 
     public void setEmission(Vec3 emission) {
         this.emission = emission;
