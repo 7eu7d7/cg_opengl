@@ -73,8 +73,5 @@ public class MainView extends GeomView{
         super.draw(gl2);
     }
 
-    @Override
-    public void touch(GL2 gl2) {
-        super.touch(gl2);
-    }
+
 }

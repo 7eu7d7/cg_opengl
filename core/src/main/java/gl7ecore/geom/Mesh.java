@@ -24,6 +24,8 @@ public class Mesh extends IGeom {
     //public int ind_group;
 
     public int prog_id;
+    public int prog_id_force=-1;
+    public ShaderDataSender sdser;
 
     int vtx_len;
     Buffer vtx_buff,col_buff,nor_buff,ind_buff,texuv_buff; //使用自定义Buffer
@@ -83,7 +85,7 @@ public class Mesh extends IGeom {
                 gl2.glDisableVertexAttribArray(Constant.tex_coord);
             }
         }
-        return ShaderLodaer.COLOR_TEX;
+        return prog_id_force==-1?ShaderLodaer.COLOR_TEX:prog_id_force;
     }
 
     @Override
@@ -162,7 +164,12 @@ public class Mesh extends IGeom {
     }
 
     public void sendShaderDatas(GL2 gl2){
+        if(sdser!=null)
+            sdser.onDataSend(prog_id);
+    }
 
+    public void setShaderDataSender(ShaderDataSender sdser) {
+        this.sdser = sdser;
     }
 
     //vertex builder
@@ -282,5 +289,9 @@ public class Mesh extends IGeom {
     public Buffer setTextureBuffer(GL2 gl2,float[] texData){
         gl2.glEnableVertexAttribArray(Constant.tex_coord);
         return GLBuffers.newDirectFloatBuffer(texData);
+    }
+
+    public interface ShaderDataSender{
+        void onDataSend(int prog_id);
     }
 }

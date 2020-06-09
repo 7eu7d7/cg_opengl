@@ -9,6 +9,9 @@ import gl7ecore.utils.GLHelper;
 import gl7ecore.utils.ShaderLodaer;
 import gl7ecore.view.GLView;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+
 public class Screen {
 
     public GLView view;
@@ -47,6 +50,14 @@ public class Screen {
         view.draw(gl2);
 
         gl2.glPopMatrix();
+    }
+
+    public boolean onKey(KeyEvent event){
+        return view.onKey(event);
+    }
+
+    public boolean onMouse(MouseEvent event){
+        return view.onMouse(event);
     }
 
     /*public void draw(GL2 gl2){

@@ -4,11 +4,10 @@ import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import gl7ecore.Screen;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
-import java.awt.BorderLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * A minimal program that draws with JOGL in a Swing JFrame using the AWT GLCanvas.
@@ -16,13 +15,15 @@ import java.awt.event.WindowEvent;
  * @author Wade Walker
  */
 public class Main {
+    public static JFrame jframe;
+    public static JPanel panel;
     public static Screen screen=new Screen();
 
-
+    public static int w=1280,h=720;
 
     public static void main( String [] args ) {
 
-        screen.view=new ViewTestAnim();
+        screen.view=new ViewTest9();
 
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities( glprofile );
@@ -50,7 +51,26 @@ public class Main {
             }
         });
 
-        final JFrame jframe = new JFrame( "Opengl CG" );
+        //key event
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventPostProcessor(event -> screen.onKey(event));
+
+        //mouse event
+        long eventMask = AWTEvent.MOUSE_MOTION_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK;
+        Toolkit.getDefaultToolkit().addAWTEventListener(e -> {
+            if (e instanceof MouseEvent){
+                screen.onMouse((MouseEvent) e);
+            }
+        }, eventMask);
+
+        panel=new JPanel();
+        //panel.setSize(w,h);
+        glcanvas.setSize(w,h);
+        panel.setLayout(null);
+        panel.add(glcanvas);
+
+
+        jframe = new JFrame( "Opengl CG" );
         jframe.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent windowevent ) {
                 jframe.dispose();
@@ -58,8 +78,8 @@ public class Main {
             }
         });
 
-        jframe.getContentPane().add( glcanvas, BorderLayout.CENTER );
-        jframe.setSize( 1280, 720 );
+        jframe.getContentPane().add( panel, BorderLayout.CENTER );
+        jframe.setSize( w, h );
         jframe.setVisible( true );
 
         //updater

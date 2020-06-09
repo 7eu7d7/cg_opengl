@@ -7,6 +7,8 @@ import glm.vec._3.Vec3;
 public abstract class IGeom {
     public int draw_type=GL2.GL_LINES;
 
+    public boolean visible=true;
+
     Vec3 position=new Vec3();
     Vec3 rotation=new Vec3();
     Vec3 scale=new Vec3(1,1,1);
@@ -20,16 +22,18 @@ public abstract class IGeom {
         使用draw绘制build的数据
     */
      public void update(GL2 gl2){
-         gl2.glPushMatrix();
-         gl2.glRotatef(rotation.x,1,0,0);
-         gl2.glRotatef(rotation.y,0,1,0);
-         gl2.glRotatef(rotation.z,0,0,1);
-         gl2.glTranslatef(position.x,position.y,position.z);
-         gl2.glScalef(scale.x, scale.y, scale.z);
+         if(visible) {
+             gl2.glPushMatrix();
+             gl2.glRotatef(rotation.x, 1, 0, 0);
+             gl2.glRotatef(rotation.y, 0, 1, 0);
+             gl2.glRotatef(rotation.z, 0, 0, 1);
+             gl2.glTranslatef(position.x, position.y, position.z);
+             gl2.glScalef(scale.x, scale.y, scale.z);
 
-         draw(gl2);
+             draw(gl2);
 
-         gl2.glPopMatrix();
+             gl2.glPopMatrix();
+         }
      }
      public abstract void draw(GL2 gl2);
      public abstract void build(GL2 gl2);
@@ -37,6 +41,10 @@ public abstract class IGeom {
      public void setDrawType(int type){
          draw_type=type;
      }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     public void setPosition(Vec3 position) {
         this.position = position;
