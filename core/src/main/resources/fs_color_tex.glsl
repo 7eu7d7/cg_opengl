@@ -29,7 +29,6 @@ struct LightProperties {
 // the set of lights to apply, per invocation of this shader
 const int MaxLights = 10;
 uniform LightProperties Lights[MaxLights];
-uniform float Shininess;
 uniform float Strength;
 uniform vec3 EyeDirection;
 //---------Light---------
@@ -88,7 +87,7 @@ void main(){
                 if (diffuse == 0.0)
                     specular = 0.0;
                 else
-                    specular = pow(specular, Shininess) * Strength;
+                    specular = pow(specular, material.shininess) * Strength;
                 // Accumulate all the lights’ effects
                 scatteredLight += Lights[light].ambient * material.ambient * attenuation +
                                 Lights[light].color * material.diffuse * diffuse * attenuation;

@@ -135,7 +135,7 @@ public class Mesh extends IGeom {
                 gl2.glVertexAttribPointer(Constant.vNormal, 3, GL2.GL_FLOAT, false, 0, nor_buff.rewind());
             }
 
-            if (material!=null && prog_id==ShaderLodaer.COLOR_TEX) {
+            if (material!=null && (prog_id==ShaderLodaer.COLOR_TEX || prog_id==ShaderLodaer.COLOR_TEX_BONE)) {
                 material.send(gl2, prog_id);
                 for (Light light : Constant.light_list) {
                     if(light!=null){
@@ -188,9 +188,6 @@ public class Mesh extends IGeom {
     public Mesh addVertex(Vec3 pos){
         return addVertex(pos.x,pos.y,pos.z);
     }
-    public Mesh addVertex(glm_.vec3.Vec3 pos){
-        return addVertex(pos.getX(),pos.getY(),pos.getZ());
-    }
 
     public void clear(){
         vertexs.clear();
@@ -206,9 +203,7 @@ public class Mesh extends IGeom {
     public Mesh addNormal(Vec3 vec){
         return addNormal(vec.x,vec.y,vec.z);
     }
-    public Mesh addNormal(glm_.vec3.Vec3 pos){
-        return addNormal(pos.getX(),pos.getY(),pos.getZ());
-    }
+
 
     //color builder
     public Mesh addColor(int col){
@@ -223,9 +218,6 @@ public class Mesh extends IGeom {
         return this;
     }
 
-    public Mesh addColor(glm_.vec4.Vec4 pos){
-        return addColor(pos.getX(),pos.getY(),pos.getZ(),pos.getW());
-    }
 
     //texture
     public void bindTexture(GL2 gl2,Texture tex){
@@ -243,12 +235,6 @@ public class Mesh extends IGeom {
     public Mesh addTex(Vec2 uv){
         texuv.add(uv.x);
         texuv.add(uv.y);
-        return this;
-    }
-
-    public Mesh addTex(glm_.vec2.Vec2 uv){
-        texuv.add(uv.getX());
-        texuv.add(uv.getY());
         return this;
     }
 

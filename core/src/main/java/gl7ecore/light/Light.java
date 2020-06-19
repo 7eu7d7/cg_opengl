@@ -14,14 +14,13 @@ public class Light {
     public Vec3 position=new Vec3(0,0,1); //光源位置
     public Vec3 halfVector=new Vec3(0,0,1); //平行光的高光方向
     public Vec3 coneDirection=new Vec3(0,0,-1); //聚光灯方向
-    float spotCosCutoff=180; //椎体夹角
+    float spotCosCutoff=(float) Math.cos(Math.toRadians(10)); //椎体夹角
     float spotExponent=1;
     //衰减系数
-    float constantAttenuation=1;
-    float linearAttenuation=0;
-    float quadraticAttenuation=0;
+    public float constantAttenuation=1;
+    public float linearAttenuation=0;
+    public float quadraticAttenuation=0;
 
-    public static float Shininess=2.0f;
     public static float Strength=0.9f;
     public static Vec3 EyeDirection=new Vec3(0,0,-1);
 
@@ -88,7 +87,7 @@ public class Light {
     }
 
     public void setSpotCosCutoff(float spotCosCutoff) {
-        this.spotCosCutoff = spotCosCutoff;
+        this.spotCosCutoff = (float) Math.cos(Math.toRadians(spotCosCutoff));
     }
 
     public void setSpotExponent(float spotExponent) {
@@ -119,7 +118,6 @@ public class Light {
         gl2.glUniform1f(gl2.glGetUniformLocation(prog,"Lights["+id+"].quadraticAttenuation"),quadraticAttenuation);
 
         //static
-        gl2.glUniform1f(gl2.glGetUniformLocation(prog,"Shininess"),Shininess);
         gl2.glUniform1f(gl2.glGetUniformLocation(prog,"Strength"),Strength);
         gl2.glUniform3fv(gl2.glGetUniformLocation(prog,"EyeDirection"),1,EyeDirection.toDfb_());
     }

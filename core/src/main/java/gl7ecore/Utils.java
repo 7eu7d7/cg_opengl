@@ -7,6 +7,13 @@ import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.TextureIO;
 import com.jogamp.opengl.util.texture.spi.DDSImage;
 import gl7ecore.utils.DDSReader;
+import glm.mat._4.Mat4;
+import glm.quat.Quat;
+import glm.vec._3.Vec3;
+import org.joml.Matrix4f;
+import org.lwjgl.assimp.AIMatrix4x4;
+import org.lwjgl.assimp.AIQuaternion;
+import org.lwjgl.assimp.AIVector3D;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -200,6 +207,30 @@ public class Utils {
         } catch (Exception exception3) {
         }
         return "";
+    }
+
+    public static Mat4 Aimat2Mat(AIMatrix4x4 aimat){
+        Mat4 mat=new Mat4(aimat.a1(),aimat.a2(),aimat.a3(),aimat.a4(),
+                          aimat.b1(),aimat.b2(),aimat.b3(),aimat.b4(),
+                          aimat.c1(),aimat.c2(),aimat.c3(),aimat.c4(),
+                          aimat.d1(),aimat.d2(),aimat.d3(),aimat.d4());
+        return mat;
+    }
+
+    public static Matrix4f Aimat2Matf(AIMatrix4x4 aimat){
+        Matrix4f mat=new Matrix4f(aimat.a1(),aimat.a2(),aimat.a3(),aimat.a4(),
+                aimat.b1(),aimat.b2(),aimat.b3(),aimat.b4(),
+                aimat.c1(),aimat.c2(),aimat.c3(),aimat.c4(),
+                aimat.d1(),aimat.d2(),aimat.d3(),aimat.d4());
+        return mat;
+    }
+
+    public static Vec3 Aiv2Vec(AIVector3D v3d){
+        return new Vec3(v3d.x(),v3d.y(),v3d.z());
+    }
+
+    public static Quat Aiq2Quat(AIQuaternion quat){
+        return new Quat(quat.x(),quat.y(),quat.z(),quat.w());
     }
 
 }

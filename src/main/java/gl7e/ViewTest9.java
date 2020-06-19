@@ -23,7 +23,7 @@ public class ViewTest9 extends GeomView {
 
     int rx,rz;
     GouraudLightBall glball=new GouraudLightBall(4,20,20);
-    Ball ball=new Ball(4,20,20);
+    Ball ball=new Ball(4,40,40);
 
     Model7e m7e_gou=new Model7e();
     Model7e m7e=new Model7e();
@@ -42,10 +42,14 @@ public class ViewTest9 extends GeomView {
 
         int prog_gouraud= ShaderLodaer.loadShader(gl2,"/vs_gouraud.glsl","/fs_gouraud.glsl");
 
+        light.pointLight();
+        light.setPosition(0,0,5);
+        light.quadraticAttenuation=0.02f;
+
         Material mat=new Material();
         mat.setAmbient(new Vec3(0.4f));
         mat.setSpecular(new Vec3(1f));
-        mat.setShininess(1f);
+        mat.setShininess(1);
 
         glball.setMaterial(mat);
         glball.normalON();
@@ -64,7 +68,7 @@ public class ViewTest9 extends GeomView {
         }
 
         //addGeom(glball);
-        //addGeom(ball);
+        addGeom(ball);
 
         try {
             m7e_gou.loadModel(gl2,getClass().getResource("/model_cube.xml"));
@@ -90,7 +94,7 @@ public class ViewTest9 extends GeomView {
             gl2.glUniform3fv(gl2.glGetUniformLocation(prog_gouraud,"globalAmbient"),1, globalAmbient.toDfb_());
         }));
 
-        addGeom(m7e_gou);
+        //addGeom(m7e_gou);
 
         try {
             m7e.loadModel(gl2,getClass().getResource("/model_cube.xml"));
@@ -100,7 +104,7 @@ public class ViewTest9 extends GeomView {
             e.printStackTrace();
         }
         m7e.setMaterial(mat);
-        addGeom(m7e);
+        //addGeom(m7e);
 
         m7e_gou.setVisible(false);
 
@@ -121,6 +125,7 @@ public class ViewTest9 extends GeomView {
         //ball.setRotation(rx,0,rz);
         m7e_gou.setRotation(rx,0,rz);
         m7e.setRotation(rx,0,rz);
+        light.setPosition(0,0,1+4*(rx/360f));
 
         super.draw(gl2);
     }

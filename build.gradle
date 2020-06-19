@@ -14,9 +14,12 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile project(":core")
-    implementation 'com.github.kotlin-graphics:assimp:v4.0-beta.13'
+    //implementation 'com.github.kotlin-graphics:assimp:v4.0-beta.13'
     compile "org.lwjgl:lwjgl:3.2.1"
     runtimeOnly "org.lwjgl:lwjgl:3.2.1:natives-windows"
+    compile "org.lwjgl:lwjgl-assimp:3.2.1"
+    runtime "org.lwjgl:lwjgl-assimp:3.2.1:natives-windows"
+
     compile "org.slf4j:slf4j-simple:1.7.25"
 
     compile group: 'org.jogamp.jogl', name: 'jogl-all-main', version: '2.3.2'
