@@ -95,6 +95,10 @@ public class Utils {
         return null;
     }
 
+    public static String readFile(File file){
+        return readFile(file.toString());
+    }
+
     public static float[] list2arrf(List<Float> list){
         float[] arr=new float[list.size()];
         int idx=0;

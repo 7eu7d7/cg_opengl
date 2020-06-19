@@ -23,7 +23,7 @@ public class BoneMesh extends Mesh{
 
     List<BoneVertex> vtx_weights;
     HashMap<String, Animation> anim_map;
-    Animation anim_now;
+    public Animation anim_now;
 
     double time;
 

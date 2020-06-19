@@ -115,6 +115,15 @@ public class DAEModelAss extends GeomGroup{
 
                 ((BoneMesh) now_mesh).selectAnimation(0);
 
+                //动作片段
+                String[] sub_anims=Utils.readFile(path+".anim").trim().split("\n");
+
+
+                for (String sub_anim : sub_anims) {
+                    String[] datas=sub_anim.trim().split(" ");
+                    ((BoneMesh) now_mesh).anim_now.addFrameRange(datas[0],Integer.parseInt(datas[1]),Integer.parseInt(datas[2]));
+                }
+
                 /*((BoneMesh) now_mesh).setAnimations(animations);
                 ((BoneMesh) now_mesh).addBones(bones);*/
             }

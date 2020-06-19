@@ -38,11 +38,20 @@ public class ViewTestBone extends GeomView {
         mat.setSpecular(new Vec3(1f));
         mat.setShininess(1.5f);
 
-        //anim.setRotation(-90,0,180);
+        anim.setRotation(-90,0,180);
         //anim.setScale(0.1f, 0.1f, 0.1f);
         anim.setScale(3, 3, 3);
         anim.setMaterial(mat);
 
+        anim.geom_group.forEach((x)->{
+            ((BoneMesh)x).anim_now.setOnAnimationOverListener((name -> {
+                if(name.equals("start_walk"))
+                    ((BoneMesh)x).anim_now.selectFrames("walk");
+            }));
+            ((BoneMesh)x).anim_now.selectFrames("start_walk");
+        });
+
+        light.setPosition(0,0,-1);
         Constant.light_list[0]=light;
 
         /*anim.geom_group.forEach((x)->x.setVisible(false));
